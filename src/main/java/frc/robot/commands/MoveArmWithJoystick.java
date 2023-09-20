@@ -6,6 +6,7 @@ import frc.robot.subsystems.ArmSubsystem;
 
 public class MoveArmWithJoystick extends CommandBase {
   /** Creates a new MoveArmWithJoystick. */
+  ArmSubsystem armSubsystem;
 
   //initialize your subsystems, controllers
   XboxController joystick1;
@@ -13,20 +14,27 @@ public class MoveArmWithJoystick extends CommandBase {
     //add your parameters to the command
     // Use addRequirements() here to declare subsystem dependencies.
     this.joystick1 = joystick1;
+    this.armSubsystem = armSubsystem;
   }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+    armSubsystem.coast();
+  }
 
   @Override
   public void execute() {
+    // set the armPower to a certain power if a button is pressed or not(left bumper)
     double joystickArmPower = joystick1.getLeftY(); //use this joystick armpower to set power to your motors
+    armSubsystem.coast();
+    armSubsystem.setArmPower(joystickArmPower);
   }
 
 
   @Override
   public void end(boolean interrupted) {
-    
+    armSubsystem.coast();
+    armSubsystem.stopArm();
   }
 
   @Override
